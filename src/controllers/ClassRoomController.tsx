@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { fetchClassroom } from "../api/classApi";
-import ClassRoom from "../components/ClassRoom";
 import { FaUser } from "react-icons/fa";
 import { Class } from "../types";
 import styled from "@emotion/styled";
@@ -52,6 +51,7 @@ const ClassRoomController = () => {
   const [classRoom, setClassRoom] = useState<Class | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<TabKey>("student");
+  const [isMenuExpanded, setIsMenuExpanded] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,6 +83,12 @@ const ClassRoomController = () => {
   const handleScoreIncrement = (id: number) => updateStudentScore(id, 1);
   const handleScoreDecrement = (id: number) => updateStudentScore(id, -1);
 
+  const handleSwitchTab = (tab: TabKey) => {
+    setActiveTab(tab);
+  };
+
+  const handleToggleMenu = () => setIsMenuExpanded(!isMenuExpanded);
+
   return (
     <Container>
       <Header>
@@ -111,7 +117,12 @@ const ClassRoomController = () => {
         </StencilWrapper>
       ) : (
         <>
-          <TabBar activeTab={activeTab} onChange={setActiveTab} />
+          <TabBar
+            activeTab={activeTab}
+            onSwitchTab={handleSwitchTab}
+            onClickMenu={handleToggleMenu}
+            isMenuExpanded={isMenuExpanded}
+          />
           {TabList.find((tab) => tab.key === activeTab)?.render({
             classRoom,
             handleScoreIncrement,

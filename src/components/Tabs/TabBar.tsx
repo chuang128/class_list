@@ -1,9 +1,12 @@
 import styled from "@emotion/styled";
 import { TabKey, TabList } from "./TabList";
+import Menu from "../Menu";
 
 type TabBarProps = {
   activeTab: TabKey;
-  onChange: (tab: TabKey) => void;
+  onSwitchTab: (tab: TabKey) => void;
+  onClickMenu: () => void;
+  isMenuExpanded: boolean;
 };
 
 const Tab = styled.button<{ active: boolean }>`
@@ -26,20 +29,29 @@ const TabBarWrapper = styled.div`
   gap: 8px;
   padding: 0 0 12px;
   background-color: transparent;
+  justify-content: space-between;
 `;
 
-const TabBar: React.FC<TabBarProps> = ({ activeTab, onChange }) => {
+const TabBar: React.FC<TabBarProps> = ({
+  activeTab,
+  onSwitchTab,
+  onClickMenu,
+  isMenuExpanded,
+}) => {
   return (
     <TabBarWrapper>
-      {TabList.map((tab) => (
-        <Tab
-          key={tab.key}
-          active={activeTab === tab.key}
-          onClick={() => onChange(tab.key)}
-        >
-          {tab.label}
-        </Tab>
-      ))}
+      <div>
+        {TabList.map((tab) => (
+          <Tab
+            key={tab.key}
+            active={activeTab === tab.key}
+            onClick={() => onSwitchTab(tab.key)}
+          >
+            {tab.label}
+          </Tab>
+        ))}
+      </div>
+      <Menu isMenuExpanded={isMenuExpanded} onToggleMenu={onClickMenu} />
     </TabBarWrapper>
   );
 };
