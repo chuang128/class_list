@@ -1,35 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import { fetchClassroom } from "./api/classApi";
+import ClassRoom from "./components/ClassRoom";
+import { Class } from "./types";
+import styled from "@emotion/styled";
+import StudentCardSkeleton from "./components/StudentCardSkeleton";
+
+const Wrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  max-width: 550px;
+  margin: 0 auto;
+  background-color: #ebebeb;
+`;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [classRoom, setClassRoom] = useState<Class | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const data = await fetchClassroom();
+      setClassRoom(data);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  const updateStudentScore = (id: number, delta: number) => {
+    // safeguard against when classRoom is null
+    if (!classRoom) return;
+
+    const updatedStudents = classRoom.students.map((student) =>
+      student.id === id
+        ? {
+            ...student,
+            score: student.score + delta,
+          }
+        : student
+    );
+
+    setClassRoom({ ...classRoom, students: updatedStudents });
+  };
+
+  const handleScoreIncrement = (id: number) => updateStudentScore(id, 1);
+  const handleScoreDecrement = (id: number) => updateStudentScore(id, -1);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      {loading || !classRoom ? (
+        <Wrapper>
+          {Array.from({ length: 20 }).map((_, i) => (
+            <StudentCardSkeleton key={i} />
+          ))}
+        </Wrapper>
+      ) : (
+        <ClassRoom
+          {...classRoom}
+          handleScoreIncrement={handleScoreIncrement}
+          handleScoreDecrement={handleScoreDecrement}
+        />
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
