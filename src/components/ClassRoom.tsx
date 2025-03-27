@@ -4,12 +4,16 @@ import StudentCard from "./StudentCard";
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 12px;
   padding: 16px;
-  max-width: 550px;
-  margin: 0 auto;
   background-color: #ebebeb;
+  border-radius: 8px;
+
+  grid-template-columns: repeat(5, 1fr); // default: 5 per row
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(2, 1fr); // mobile: 2 per row
+  }
 `;
 
 type ClassRoomProps = Class & {
