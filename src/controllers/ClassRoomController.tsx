@@ -5,6 +5,8 @@ import { FaUser } from "react-icons/fa";
 import { Class } from "../types";
 import styled from "@emotion/styled";
 import { BoxStencil } from "../components/Stencil";
+import { TabList, TabKey } from "../components/Tabs/TabList";
+import TabBar from "../components/Tabs/TabBar";
 
 const Container = styled.div`
   background: white;
@@ -49,6 +51,7 @@ const SeatInfo = styled.span`
 const ClassRoomController = () => {
   const [classRoom, setClassRoom] = useState<Class | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<TabKey>("student");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -107,11 +110,14 @@ const ClassRoomController = () => {
           ))}
         </StencilWrapper>
       ) : (
-        <ClassRoom
-          {...classRoom}
-          handleScoreIncrement={handleScoreIncrement}
-          handleScoreDecrement={handleScoreDecrement}
-        />
+        <>
+          <TabBar activeTab={activeTab} onChange={setActiveTab} />
+          {TabList.find((tab) => tab.key === activeTab)?.render({
+            classRoom,
+            handleScoreIncrement,
+            handleScoreDecrement,
+          })}
+        </>
       )}
     </Container>
   );
