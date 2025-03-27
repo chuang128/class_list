@@ -19,7 +19,19 @@ export const mockClassRoom: Class = {
   subject: "Science",
   students,
   totalSeat: 20,
-  groups: [],
+  groups: [
+    [
+      { id: 1, name: "Philip", score: 0 },
+      { id: 2, name: "Darrell", score: 0 },
+      { id: 3, name: "Guest", score: 0 },
+    ],
+    [
+      { id: 10, name: "Esther", score: 0 },
+      { id: 12, name: "Gloria", score: 0 },
+      { id: 14, name: "Lee", score: 0 },
+      { id: 16, name: "Ann", score: 0 },
+    ],
+  ],
 };
 
 export const mockJoinInfo: JoinInfo = {

@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import { Group as GroupType } from "../types";
+import { Student } from "../types";
 
 type Props = {
-  groups: GroupType[];
+  groups: Student[][];
 };
 
 const GroupWrapper = styled.div`
@@ -31,7 +31,7 @@ const StudentList = styled.div`
   flex-wrap: wrap;
 `;
 
-const Student = styled.div`
+const StudentName = styled.div`
   background-color: #ebebeb;
   border-radius: 6px;
   padding: 6px 12px;
@@ -44,12 +44,12 @@ const Group: React.FC<Props> = ({ groups }) => {
 
   return (
     <GroupWrapper>
-      {groups.map((group, index) => (
+      {groups.map((studentGroup, index) => (
         <GroupBox key={index}>
           <GroupTitle>Group {index + 1}</GroupTitle>
           <StudentList>
-            {group.students.map((student) => (
-              <Student key={student.id}>{student.name}</Student>
+            {studentGroup.map((student) => (
+              <StudentName key={student.id}>{student.name}</StudentName>
             ))}
           </StudentList>
         </GroupBox>
