@@ -18,7 +18,7 @@ export const mockClassRoom: Class = {
   id: 302,
   subject: "Science",
   students,
-  totalSeat: 20,
+  totalSeat: 40,
   groups: [
     [
       { id: 1, name: "Philip", score: 0 },

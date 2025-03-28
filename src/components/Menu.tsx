@@ -39,12 +39,13 @@ const MenuItem = styled.div`
 type MenuProps = {
   isMenuExpanded: boolean;
   onToggleMenu: () => void;
+  onOpenInvitation: () => void;
 };
 
 const Menu: React.FC<MenuProps> = ({
   isMenuExpanded,
   onToggleMenu,
-  // onOpenQR,
+  onOpenInvitation,
 }) => (
   <MenuWrapper>
     <MenuButton onClick={onToggleMenu}>
@@ -52,7 +53,7 @@ const Menu: React.FC<MenuProps> = ({
     </MenuButton>
     {isMenuExpanded && (
       <List>
-        <MenuItem>Open QR Code Page</MenuItem>
+        <MenuItem onClick={onOpenInvitation}>Show QR code</MenuItem>
       </List>
     )}
   </MenuWrapper>

@@ -1,15 +1,9 @@
 import styled from "@emotion/styled";
-import { TabKey, TabList } from "./TabList";
-import Menu from "../Menu";
+import Menu from "./Menu";
+import { TabKey } from "../types";
+import { TabList } from "./TabList";
 
-type TabBarProps = {
-  activeTab: TabKey;
-  onSwitchTab: (tab: TabKey) => void;
-  onClickMenu: () => void;
-  isMenuExpanded: boolean;
-};
-
-const Tab = styled.button<{ active: boolean }>`
+const TabName = styled.button<{ active: boolean }>`
   padding: 8px 16px;
   font-weight: bold;
   font-size: 14px;
@@ -32,26 +26,39 @@ const TabBarWrapper = styled.div`
   justify-content: space-between;
 `;
 
+type TabBarProps = {
+  isMenuOpen: boolean;
+  activeTab: TabKey;
+  onToggleMenu: () => void;
+  onSwitchTab: (selectedTab: TabKey) => void;
+  onOpenInvitation: () => void;
+};
+
 const TabBar: React.FC<TabBarProps> = ({
+  isMenuOpen,
   activeTab,
+  onToggleMenu,
   onSwitchTab,
-  onClickMenu,
-  isMenuExpanded,
+  onOpenInvitation,
 }) => {
   return (
     <TabBarWrapper>
       <div>
         {TabList.map((tab) => (
-          <Tab
+          <TabName
             key={tab.key}
             active={activeTab === tab.key}
             onClick={() => onSwitchTab(tab.key)}
           >
             {tab.label}
-          </Tab>
+          </TabName>
         ))}
       </div>
-      <Menu isMenuExpanded={isMenuExpanded} onToggleMenu={onClickMenu} />
+      <Menu
+        isMenuExpanded={isMenuOpen}
+        onToggleMenu={onToggleMenu}
+        onOpenInvitation={onOpenInvitation}
+      />
     </TabBarWrapper>
   );
 };

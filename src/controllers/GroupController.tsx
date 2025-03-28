@@ -1,9 +1,5 @@
 import styled from "@emotion/styled";
-import { Student } from "../types";
-
-type Props = {
-  groups: Student[][];
-};
+import { useClassRoom } from "../hooks/useClassRoom";
 
 const GroupWrapper = styled.div`
   display: flex;
@@ -39,12 +35,16 @@ const StudentName = styled.div`
   font-weight: 500;
 `;
 
-const Group: React.FC<Props> = ({ groups }) => {
-  if (!groups.length) return <p>No groups available.</p>;
+const GroupController: React.FC = () => {
+  const { classRoom } = useClassRoom();
+
+  if (!classRoom) {
+    return <p>No groups available.</p>;
+  }
 
   return (
     <GroupWrapper>
-      {groups.map((studentGroup, index) => (
+      {classRoom.groups.map((studentGroup, index) => (
         <GroupBox key={index}>
           <GroupTitle>Group {index + 1}</GroupTitle>
           <StudentList>
@@ -58,4 +58,4 @@ const Group: React.FC<Props> = ({ groups }) => {
   );
 };
 
-export default Group;
+export default GroupController;

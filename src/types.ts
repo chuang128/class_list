@@ -1,10 +1,12 @@
+import { ReactNode } from "react";
+
 export type Student = {
   id: number;
   name: string;
   score: number;
 };
 
-type GroupOfStudents =
+export type GroupOfStudents =
   | []
   | [Student]
   | [Student, Student]
@@ -23,4 +25,12 @@ export type Class = {
 export type JoinInfo = {
   id: string;
   link: string;
+};
+
+export type TabKey = "student" | "group"; // expandable and scalable for future tabs
+
+export type TabItem = {
+  key: TabKey;
+  label: string;
+  render: () => ReactNode;
 };
