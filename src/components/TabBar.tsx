@@ -26,9 +26,10 @@ const TabBarWrapper = styled.div`
 `;
 
 type TabBarProps = {
+  menuRef: React.RefObject<HTMLDivElement | null>;
   isMenuOpen: boolean;
   activeTab: TabKey;
-  onToggleMenu: () => void;
+  onOpenMenu: () => void;
   onSwitchTab: (selectedTab: TabKey) => void;
   onOpenInvitation: () => void;
 };
@@ -36,9 +37,10 @@ type TabBarProps = {
 const TabBar: React.FC<TabBarProps> = ({
   isMenuOpen,
   activeTab,
-  onToggleMenu,
+  onOpenMenu,
   onSwitchTab,
   onOpenInvitation,
+  menuRef,
 }) => {
   return (
     <TabBarWrapper>
@@ -54,8 +56,9 @@ const TabBar: React.FC<TabBarProps> = ({
         ))}
       </div>
       <Menu
+        ref={menuRef}
         isMenuExpanded={isMenuOpen}
-        onToggleMenu={onToggleMenu}
+        onOpenMenu={onOpenMenu}
         onOpenInvitation={onOpenInvitation}
       />
     </TabBarWrapper>

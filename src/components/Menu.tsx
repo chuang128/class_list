@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
 const MenuWrapper = styled.div`
@@ -38,25 +39,23 @@ const MenuItem = styled.div`
 
 type MenuProps = {
   isMenuExpanded: boolean;
-  onToggleMenu: () => void;
+  onOpenMenu: () => void;
   onOpenInvitation: () => void;
 };
 
-const Menu: React.FC<MenuProps> = ({
-  isMenuExpanded,
-  onToggleMenu,
-  onOpenInvitation,
-}) => (
-  <MenuWrapper>
-    <MenuButton onClick={onToggleMenu}>
-      <BsThreeDotsVertical size={20} />
-    </MenuButton>
-    {isMenuExpanded && (
-      <List>
-        <MenuItem onClick={onOpenInvitation}>Show QR code</MenuItem>
-      </List>
-    )}
-  </MenuWrapper>
+const Menu = React.forwardRef<HTMLDivElement, MenuProps>(
+  ({ isMenuExpanded, onOpenMenu, onOpenInvitation }, ref) => (
+    <MenuWrapper ref={ref}>
+      <MenuButton onClick={onOpenMenu}>
+        <BsThreeDotsVertical size={20} />
+      </MenuButton>
+      {isMenuExpanded && (
+        <List>
+          <MenuItem onClick={onOpenInvitation}>Show QR code</MenuItem>
+        </List>
+      )}
+    </MenuWrapper>
+  )
 );
 
 export default Menu;
