@@ -7,22 +7,17 @@ const StencilWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 12px;
-  padding: 16px;
-  background-color: #ebebeb;
-  border-radius: 8px;
+  padding: 18px;
 `;
 
-const Wrapper = styled.div`
+const StudentCardWrapper = styled.div`
   display: grid;
   gap: 12px;
-  padding: 16px;
-  background-color: #ebebeb;
-  border-radius: 8px;
-
-  grid-template-columns: repeat(5, 1fr); // default: 5 per row
-
+  padding: 18px;
+  background-color: white;
+  grid-template-columns: repeat(5, 1fr);
   @media (max-width: 600px) {
-    grid-template-columns: repeat(2, 1fr); // mobile: 2 per row
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
 
@@ -65,7 +60,7 @@ const StudentListController: React.FC = () => {
   });
 
   return (
-    <Wrapper>
+    <StudentCardWrapper>
       {seats.map((student) => (
         <StudentCard
           onDecrement={handleScoreDecrement}
@@ -74,7 +69,7 @@ const StudentListController: React.FC = () => {
           {...student}
         />
       ))}
-    </Wrapper>
+    </StudentCardWrapper>
   );
 };
 

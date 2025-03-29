@@ -21,7 +21,6 @@ const TabName = styled.button<{ active: boolean }>`
 const TabBarWrapper = styled.div`
   display: flex;
   gap: 8px;
-  padding: 0 0 12px;
   background-color: transparent;
   justify-content: space-between;
 `;

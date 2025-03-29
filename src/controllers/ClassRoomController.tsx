@@ -9,17 +9,22 @@ import { useNavigation } from "../hooks/useNavigation";
 const Container = styled.div`
   background: white;
   border-radius: 12px;
-  padding: 16px;
   max-width: 750px;
   margin: 40px auto;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+`;
+
+const HeaderWrapper = styled.div`
+  background-color: #ebebeb;
+  padding: 18px 18px 0;
 `;
 
 const Header = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 0;
+  padding: 16px 0;
 `;
 
 const Subject = styled.span`
@@ -37,6 +42,11 @@ const SeatInfo = styled.span`
   gap: 4px;
 `;
 
+const TabContentWrapper = styled.div`
+  max-height: 510px;
+  overflow-y: auto;
+`;
+
 const ClassRoomController = () => {
   const { classRoom, loading } = useClassRoom();
   const {
@@ -50,26 +60,26 @@ const ClassRoomController = () => {
   const currentTab = TabList.find((tab) => tab.key === activeTab);
 
   return (
-    <Container>
-      <Header>
-        {loading || !classRoom ? (
-          <>
-            <BoxStencil width="100px" height="20px" />
-            <BoxStencil width="60px" height="20px" />
-          </>
-        ) : (
-          <>
-            <Subject>
-              {classRoom.id} {classRoom.subject}
-            </Subject>
-            <SeatInfo>
-              <FaUser size={14} />
-              {classRoom.students.length}/{classRoom.totalSeat}
-            </SeatInfo>
-          </>
-        )}
-      </Header>
-      <>
+    <Container className="container">
+      <HeaderWrapper>
+        <Header>
+          {loading || !classRoom ? (
+            <>
+              <BoxStencil width="100px" height="20px" />
+              <BoxStencil width="60px" height="20px" />
+            </>
+          ) : (
+            <>
+              <Subject>
+                {classRoom.id} {classRoom.subject}
+              </Subject>
+              <SeatInfo>
+                <FaUser size={14} />
+                {classRoom.students.length}/{classRoom.totalSeat}
+              </SeatInfo>
+            </>
+          )}
+        </Header>
         <TabBar
           activeTab={activeTab}
           onSwitchTab={handleSwitchTab}
@@ -77,8 +87,8 @@ const ClassRoomController = () => {
           isMenuOpen={isMenuOpen}
           onOpenInvitation={handleOpenInvitation}
         />
-        {currentTab && currentTab.render()}
-      </>
+      </HeaderWrapper>
+      <TabContentWrapper>{currentTab && currentTab.render()}</TabContentWrapper>
     </Container>
   );
 };
