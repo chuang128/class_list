@@ -18,7 +18,7 @@ export const mockClassRoom: Class = {
   id: 302,
   subject: "Science",
   students,
-  totalSeat: 40,
+  totalSeat: 20,
   groups: [
     [
       { id: 1, name: "Philip", score: 0 },
@@ -36,5 +36,5 @@ export const mockClassRoom: Class = {
 
 export const mockJoinInfo: JoinInfo = {
   id: "X58E9647",
-  link: "https://www.classswift.viewsonic.io/",
+  url: "https://www.classswift.viewsonic.io/",
 };
