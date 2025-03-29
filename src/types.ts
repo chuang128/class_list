@@ -24,7 +24,7 @@ export type Class = {
 
 export type JoinInfo = {
   id: string;
-  link: string;
+  url: string;
 };
 
 export type TabKey = "student" | "group"; // expandable and scalable for future tabs
