@@ -3,9 +3,9 @@ import { useClassRoom } from "../hooks/useClassRoom";
 
 const GroupWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 16px;
-  margin-top: 16px;
+  padding: 18px;
+  background-color: #f9f9f9;
 `;
 
 const GroupBox = styled.div`
@@ -13,6 +13,7 @@ const GroupBox = styled.div`
   border-radius: 8px;
   padding: 12px;
   background-color: #f9f9f9;
+  max-width: content;
 `;
 
 const GroupTitle = styled.div`
@@ -28,32 +29,37 @@ const StudentList = styled.div`
 `;
 
 const StudentName = styled.div`
-  background-color: #ebebeb;
+  background-color: #f0f0f0;
   border-radius: 6px;
   padding: 6px 12px;
   font-size: 14px;
   font-weight: 500;
 `;
 
-const GroupController: React.FC = () => {
-  const { classRoom } = useClassRoom();
+const LoadingWrapper = styled.div`
+  padding: 14px;
+  font-size: 16px;
+`;
 
-  if (!classRoom) {
-    return <p>No groups available.</p>;
-  }
+const GroupController: React.FC = () => {
+  const { classRoom, loading } = useClassRoom();
 
   return (
     <GroupWrapper>
-      {classRoom.groups.map((studentGroup, index) => (
-        <GroupBox key={index}>
-          <GroupTitle>Group {index + 1}</GroupTitle>
-          <StudentList>
-            {studentGroup.map((student) => (
-              <StudentName key={student.id}>{student.name}</StudentName>
-            ))}
-          </StudentList>
-        </GroupBox>
-      ))}
+      {!classRoom || loading ? (
+        <LoadingWrapper>No groups available</LoadingWrapper>
+      ) : (
+        classRoom.groups.map((studentGroup, index) => (
+          <GroupBox key={index}>
+            <GroupTitle>Group {index + 1}</GroupTitle>
+            <StudentList>
+              {studentGroup.map((student) => (
+                <StudentName key={student.id}>{student.name}</StudentName>
+              ))}
+            </StudentList>
+          </GroupBox>
+        ))
+      )}
     </GroupWrapper>
   );
 };

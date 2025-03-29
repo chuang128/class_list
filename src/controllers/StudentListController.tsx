@@ -8,13 +8,14 @@ const StencilWrapper = styled.div`
   grid-template-columns: repeat(5, 1fr);
   gap: 12px;
   padding: 18px;
+  background-color: #f9f9f9;
 `;
 
 const StudentCardWrapper = styled.div`
   display: grid;
   gap: 12px;
   padding: 18px;
-  background-color: white;
+  background-color: #f9f9f9;
   grid-template-columns: repeat(5, 1fr);
   @media (max-width: 600px) {
     grid-template-columns: repeat(2, 1fr);
