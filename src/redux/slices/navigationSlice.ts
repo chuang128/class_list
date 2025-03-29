@@ -18,21 +18,25 @@ const navigationSlice = createSlice({
   initialState,
   reducers: {
     openOverlay: (state: NavigationState) => {
+      state.isMenuOpen = false;
       state.isOverlayOpen = true;
     },
     closeOverlay: (state: NavigationState) => {
       state.isOverlayOpen = false;
     },
-    toggleMenu: (state: NavigationState) => {
-      state.isMenuOpen = !state.isMenuOpen;
+    openMenu: (state: NavigationState) => {
+      state.isMenuOpen = true;
     },
-    setTab: (state, action: PayloadAction<TabKey>) => {
+    closeMenu: (state: NavigationState) => {
+      state.isMenuOpen = false;
+    },
+    setTab: (state: NavigationState, action: PayloadAction<TabKey>) => {
       state.activeTab = action.payload;
     },
   },
 });
 
-export const { openOverlay, closeOverlay, toggleMenu, setTab } =
+export const { openOverlay, closeOverlay, openMenu, closeMenu, setTab } =
   navigationSlice.actions;
 
 export default navigationSlice.reducer;

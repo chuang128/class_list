@@ -39,15 +39,18 @@ const classRoomSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchClassRoomData.pending, (state) => {
+      .addCase(fetchClassRoomData.pending, (state: ClassRoomState) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchClassRoomData.fulfilled, (state, action) => {
-        state.loading = false;
-        state.data = action.payload;
-      })
-      .addCase(fetchClassRoomData.rejected, (state, action) => {
+      .addCase(
+        fetchClassRoomData.fulfilled,
+        (state: ClassRoomState, action) => {
+          state.loading = false;
+          state.data = action.payload;
+        }
+      )
+      .addCase(fetchClassRoomData.rejected, (state: ClassRoomState, action) => {
         state.loading = false;
         state.error = action.error.message || "Unknown error occurred";
       });
