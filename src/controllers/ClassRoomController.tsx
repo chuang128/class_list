@@ -8,13 +8,32 @@ import { useNavigation } from "../hooks/useNavigation";
 import OverlayController from "./OverlayController";
 import ErrorPage from "../components/ErrorPage";
 
-const Container = styled.div`
+const Container = styled.div<{ visible: boolean }>`
   background-color: #ebebeb;
   border-radius: 12px;
   max-width: 750px;
   margin: 40px auto;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  display: ${({ visible }) => (visible ? "block" : "none")};
+`;
+
+export const CloseButtonWrapper = styled.div`
+  position: relative;
+`;
+
+export const CloseButton = styled.button`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  &:hover {
+    color: #000;
+  }
 `;
 
 const HeaderWrapper = styled.div`
@@ -58,6 +77,8 @@ const ClassRoomController = () => {
     isOverlayOpen,
     menuRef,
     handleOpenMenu,
+    isDisplayOpen,
+    handleCloseDisplay,
   } = useNavigation();
 
   if (error) {
@@ -67,7 +88,10 @@ const ClassRoomController = () => {
   const currentTab = TabList.find((tab) => tab.key === activeTab);
 
   return (
-    <Container className="ClassRoom_Container">
+    <Container visible={isDisplayOpen} className="ClassRoom_Container">
+      <CloseButtonWrapper>
+        <CloseButton onClick={handleCloseDisplay}>x</CloseButton>
+      </CloseButtonWrapper>
       {isOverlayOpen ? (
         <OverlayController />
       ) : (

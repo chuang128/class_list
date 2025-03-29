@@ -5,12 +5,14 @@ type NavigationState = {
   isOverlayOpen: boolean;
   isMenuOpen: boolean;
   activeTab: TabKey;
+  isDisplayOpen: boolean;
 };
 
 const initialState: NavigationState = {
   isOverlayOpen: false,
   isMenuOpen: false,
   activeTab: "student",
+  isDisplayOpen: true,
 };
 
 const navigationSlice = createSlice({
@@ -33,10 +35,19 @@ const navigationSlice = createSlice({
     setTab: (state: NavigationState, action: PayloadAction<TabKey>) => {
       state.activeTab = action.payload;
     },
+    closeDisplay: (state: NavigationState) => {
+      state.isDisplayOpen = false;
+    },
   },
 });
 
-export const { openOverlay, closeOverlay, openMenu, closeMenu, setTab } =
-  navigationSlice.actions;
+export const {
+  openOverlay,
+  closeOverlay,
+  openMenu,
+  closeMenu,
+  setTab,
+  closeDisplay,
+} = navigationSlice.actions;
 
 export default navigationSlice.reducer;

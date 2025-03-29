@@ -7,6 +7,7 @@ import {
   openMenu,
   closeMenu,
   closeOverlay,
+  closeDisplay,
 } from "../redux/slices/navigationSlice";
 import { useEffect, useRef } from "react";
 
@@ -14,7 +15,7 @@ export const useNavigation = () => {
   const dispatch: AppDispatch = useDispatch();
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const { activeTab, isMenuOpen, isOverlayOpen } = useSelector(
+  const { activeTab, isMenuOpen, isOverlayOpen, isDisplayOpen } = useSelector(
     (state: RootState) => state.navigation
   );
 
@@ -23,6 +24,7 @@ export const useNavigation = () => {
   const handleSwitchTab = (tab: TabKey) => dispatch(setTab(tab));
   const handleOpenInvitation = () => dispatch(openOverlay());
   const handleCloseInvitation = () => dispatch(closeOverlay());
+  const handleCloseDisplay = () => dispatch(closeDisplay());
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -41,7 +43,9 @@ export const useNavigation = () => {
     handleCloseMenu,
     handleOpenInvitation,
     handleCloseInvitation,
+    handleCloseDisplay,
     isMenuOpen,
+    isDisplayOpen,
     isOverlayOpen,
     menuRef,
   };
