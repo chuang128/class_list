@@ -5,9 +5,11 @@ import TabBar from "../components/TabBar";
 import { TabList } from "../components/TabList";
 import { useClassRoom } from "../hooks/useClassRoom";
 import { useNavigation } from "../hooks/useNavigation";
+import OverlayController from "./OverlayController";
+import ErrorPage from "../components/ErrorPage";
 
 const Container = styled.div`
-  background: white;
+  background-color: #ebebeb;
   border-radius: 12px;
   max-width: 750px;
   margin: 40px auto;
@@ -16,7 +18,6 @@ const Container = styled.div`
 `;
 
 const HeaderWrapper = styled.div`
-  background-color: #ebebeb;
   padding: 18px 18px 0;
 `;
 
@@ -48,47 +49,62 @@ const TabContentWrapper = styled.div`
 `;
 
 const ClassRoomController = () => {
-  const { classRoom, loading } = useClassRoom();
+  const { classRoom, loading, error, handleRefetch } = useClassRoom();
   const {
     activeTab,
     handleSwitchTab,
-    handleToggleMenu,
     handleOpenInvitation,
     isMenuOpen,
+    isOverlayOpen,
+    menuRef,
+    handleOpenMenu,
   } = useNavigation();
+
+  if (error) {
+    return <ErrorPage onRefetch={handleRefetch} message={error} />;
+  }
 
   const currentTab = TabList.find((tab) => tab.key === activeTab);
 
   return (
-    <Container className="container">
-      <HeaderWrapper>
-        <Header>
-          {loading || !classRoom ? (
-            <>
-              <BoxStencil width="100px" height="20px" />
-              <BoxStencil width="60px" height="20px" />
-            </>
-          ) : (
-            <>
-              <Subject>
-                {classRoom.id} {classRoom.subject}
-              </Subject>
-              <SeatInfo>
-                <FaUser size={14} />
-                {classRoom.students.length}/{classRoom.totalSeat}
-              </SeatInfo>
-            </>
-          )}
-        </Header>
-        <TabBar
-          activeTab={activeTab}
-          onSwitchTab={handleSwitchTab}
-          onToggleMenu={handleToggleMenu}
-          isMenuOpen={isMenuOpen}
-          onOpenInvitation={handleOpenInvitation}
-        />
-      </HeaderWrapper>
-      <TabContentWrapper>{currentTab && currentTab.render()}</TabContentWrapper>
+    <Container className="ClassRoom_Container">
+      {isOverlayOpen ? (
+        <OverlayController />
+      ) : (
+        <div>
+          <HeaderWrapper>
+            <Header>
+              {loading || !classRoom ? (
+                <>
+                  <BoxStencil width="100px" height="20px" />
+                  <BoxStencil width="60px" height="20px" />
+                </>
+              ) : (
+                <>
+                  <Subject>
+                    {classRoom.id} {classRoom.subject}
+                  </Subject>
+                  <SeatInfo>
+                    <FaUser size={14} />
+                    {classRoom.students.length}/{classRoom.totalSeat}
+                  </SeatInfo>
+                </>
+              )}
+            </Header>
+            <TabBar
+              activeTab={activeTab}
+              onSwitchTab={handleSwitchTab}
+              onOpenMenu={handleOpenMenu}
+              isMenuOpen={isMenuOpen}
+              onOpenInvitation={handleOpenInvitation}
+              menuRef={menuRef}
+            />
+          </HeaderWrapper>
+          <TabContentWrapper>
+            {currentTab && currentTab.render()}
+          </TabContentWrapper>
+        </div>
+      )}
     </Container>
   );
 };
